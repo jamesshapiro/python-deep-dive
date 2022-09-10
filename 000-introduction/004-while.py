@@ -20,6 +20,7 @@ def do_something():
 # because it does not have to list the "result = do_something()"
 # call twice
 
+print('do-while idiom example:')
 while True:
     result = do_something()
     if result:
@@ -27,6 +28,8 @@ while True:
 
 # while-else
 
+print()
+print('while-else example 1 -- loop never breaks:')
 breaking_condition = False
 i = 0
 while i < 10:
@@ -35,7 +38,19 @@ while i < 10:
         print('while-loop break out early')
         break
 else:
-    print('while-loop completed. breaking condition never occurred.')
+    print('while-loop completes. else statement entered. breaking condition never occurred.')
+
+print()
+print('while-else example 2  -- loop breaks:')
+breaking_condition = True
+i = 0
+while i < 10:
+    i += 1
+    if breaking_condition:
+        print('while-loop breaks out early')
+        break
+else:
+    print('while-loop completes. else statement entered. breaking condition never occurred.')
 
 # while-else is useful for cases similar to the following:
 
@@ -53,6 +68,8 @@ else:
 # if not found:
 #     l.append(val)
 
+print()
+print('while-else, more practical use-case:')
 val = 10
 idx = 0
 l = [1,2,3]

@@ -7,7 +7,7 @@ extremely_long_variable_name_that_goes_on_and_on_ad_infinitum_3 = True
 if extremely_long_variable_name_that_goes_on_and_on_ad_infinitum_1 \
     and extremely_long_variable_name_that_goes_on_and_on_ad_infinitum_2 \
     and extremely_long_variable_name_that_goes_on_and_on_ad_infinitum_3:
-    print('multiline if-statement succeeded')
+    print('multiline if-statement success example\n')
 
 # You cannot intersperse comments either. Uncomment to see what happens.
 # if extremely_long_variable_name_that_goes_on_and_on_ad_infinitum_1 \
@@ -27,18 +27,19 @@ assigning it to a value
 # but since it is not assigned, it's not doing anything
 "non-assigned string"
 
-multiline_example = """
-Multiline strings are not the same as comments. Unlike comments, they are
+multiline_example = """Multiline strings are not the same as comments. Unlike comments, they are
 not ignore by the compiler. Rather they are compiled as part of your code.
 In the non-multiline case, this is the same as declaring a string without
 assigning it to a value 
 """
 
-print(f"""this variable and this print statement both illustrate the 
+print(f"""multiline string variable example:
+this variable and this print statement both illustrate the 
 difference between multiline strings and comments:
 {multiline_example=}'""")
 
 # prints with newlines actually displayed as newlines
+print('\nprettier print example:')
 print(multiline_example)
 
 # implicit line continuation examples
@@ -67,6 +68,7 @@ a = {
 def my_func(a, # this is used to indicate...
             b, # another long comment here...
             c):
+    print('multiline function args example')
     print(a,b,c)
 
 my_func(
@@ -83,4 +85,5 @@ c = 100
 if a > 10 \
     and b > 20 \
         and c > 30:
+    print('\nmultiline if-statement whitespace example')
     print('all values are greater')
