@@ -348,3 +348,97 @@ refs = f"""Refs:
 
 print(heap)
 print(refs)
+
+
+# =======================================
+print('\nSimple list memory address examples:')
+
+print('\n(10.)')
+
+list_1 = [1,2,3]
+print("\nlist_1 = [1,2,3]")
+print(f'{hex(id(list_1))=}')
+print(f'{hex(id([1,2,3]))=}')
+print("\nlist_2 = list_1")
+
+list_2 = list_1
+
+note = """
+Note: one potentially confusing point. Once [1,2,3]
+gets declared with hex(id([1,2,3])), list_3 latches
+onto it and hex(id([1,2,3])) CHANGES!! to another
+area of memory
+"""
+
+print(note)
+print(f'{hex(id([1,2,3]))=}')
+print("list_3 = [1,2,3]")
+list_3 = [1,2,3]
+print(f'{hex(id(list_3))=}')
+print(f'{hex(id([1,2,3]))=}')
+
+heap = f"""
+Heap:
++++++++++++++++++++++++++++++++++++++++
++     Address      +      Value       +
++++++++++++++++++++++++++++++++++++++++
++  {hex(id([1,2,3]))}  +     [1,2,3]      +
++  {hex(id(list_1))}  +     [1,2,3]      +
++  {hex(id(list_3))}  +     [1,2,3]      +
++++++++++++++++++++++++++++++++++++++++
+"""
+
+refs = f"""Refs:
++++++++++++++++++++++++++++++++++++++++
++       Var        +      Value       +
++++++++++++++++++++++++++++++++++++++++
++      list_1      +  {hex(id(list_1))}  +
++      list_2      +  {hex(id(list_2))}  +
++      list_3      +  {hex(id(list_3))}  +
++++++++++++++++++++++++++++++++++++++++
+"""
+
+print(heap)
+print(refs)
+
+print('\nlist_1.append(4)')
+list_1.append(4)
+
+print(f'{hex(id([1,2,3]))=}')
+print(f'{hex(id([1,2,3,4]))=}')
+print(f'{hex(id(list_1))=}')
+print(f'{hex(id(list_2))=}')
+print(f'{hex(id(list_3))=}')
+print(f'{list_1=}')
+print(f'{list_2=}')
+print(f'{list_3=}')
+
+print('\nlist_3.append(4)')
+list_3.append(4)
+print(f'{hex(id(list_1))=}')
+print(f'{hex(id(list_2))=}')
+print(f'{hex(id(list_3))=}')
+
+heap = f"""
+Heap:
++++++++++++++++++++++++++++++++++++++++
++     Address      +      Value       +
++++++++++++++++++++++++++++++++++++++++
++  {hex(id([1,2,3]))}  +     [1,2,3]      +
++  {hex(id(list_1))}  +    [1,2,3,4]     +
++  {hex(id(list_3))}  +    [1,2,3,4]     +
++++++++++++++++++++++++++++++++++++++++
+"""
+
+refs = f"""Refs:
++++++++++++++++++++++++++++++++++++++++
++       Var        +      Value       +
++++++++++++++++++++++++++++++++++++++++
++      list_1      +  {hex(id(list_1))}  +
++      list_2      +  {hex(id(list_2))}  +
++      list_3      +  {hex(id(list_3))}  +
++++++++++++++++++++++++++++++++++++++++
+"""
+
+print(heap)
+print(refs)
