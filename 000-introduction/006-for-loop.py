@@ -8,6 +8,16 @@ for i in range(1,5):
 else:
     print('no multiples of 7 were found')
 
+print('for-else example 2:')
+# for-else example
+for i in range(1,14):
+    print(i)
+    if i % 7 == 0:
+        print('multiple of 7 found -- continue!')
+        continue
+else:
+    print('no multiples of 7 were found -- continue')
+
 print()
 print('continue-finally example:')
 # continue/finally example
