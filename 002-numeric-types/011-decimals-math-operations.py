@@ -27,7 +27,19 @@ print(f'{-10 % -3=}')
 print(f'{Decimal(-10) // Decimal(-3)=}')
 print(f'{Decimal(-10) % Decimal(-3)=}')
 
+print(f'\n{divmod(-10, 3)=}')
+print(f'{divmod(Decimal(-10), Decimal(3))=}')
+
 x = 10
+
+# Some other math functions:
+a = Decimal('1.5')
+print(f'\n{a.ln()=}')
+print(f'{a.exp()=}')
+print(f'{a.sqrt()=}')
+
+import math
+print(f'{math.sqrt(a)=}')
 
 # Note: the decimal class defines a number of operations like sqrt, logs, etc.
 # BUT not all functions defined in the math module are define in the Decimal class
