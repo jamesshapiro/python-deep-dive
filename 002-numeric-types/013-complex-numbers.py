@@ -79,3 +79,31 @@ b = 1 + 2j
 print(f'{a==b=}')
 print(f'{a.real=}')
 print(f'{type(a.real)=}')
+
+a = 0.1j
+print(f'{a.imag=:.25f}')
+print(f'{a+a+a==0.3j=}')
+
+import math
+math.sqrt(2)
+math.pi
+import cmath
+
+print(f'{cmath.pi=}')
+print(f'{type(cmath.pi)=}')
+
+a = 1 + 1j
+print('\nRectangular to polar')
+print('a = 1 + 1j')
+print(f'{cmath.phase(a)=}')
+print(f'{math.pi/4=}')
+print(f'{abs(a)=}')
+
+print('\nPolar to rectangular')
+print(f'{cmath.rect(math.sqrt(2), math.pi/4)=}')
+
+print('\ne^(i*pi)+1=0')
+print(f'{cmath.exp(cmath.pi*1j)+1=}')
+print(f'{cmath.exp(complex(0, math.pi))+1=}')
+rhs = cmath.exp(complex(0, math.pi))+1
+print(f'{cmath.isclose(rhs, 0, abs_tol=0.0001)=}')
