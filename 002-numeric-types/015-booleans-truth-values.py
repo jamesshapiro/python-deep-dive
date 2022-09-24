@@ -57,6 +57,7 @@ if my_list is not None and len(my_list) > 0:
     # code block
 """
 from decimal import Decimal
+from fractions import Fraction
 print(f'{bool("abc")=}')
 print(f'{bool("")=}')
 print(f'{bool(0)=}')
@@ -65,3 +66,42 @@ print(f'{bool(Decimal("0.0"))=}')
 print(f'{bool(-1)=}')
 print(f'{bool(1+2j)=}')
 print(f'{bool(Decimal("0.1"))=}')
+
+"""
+bool(100) is equivalent to (100).__bool__()
+bool(0) is equivalent to (0).__bool__()
+a = []
+bool(a) is equivalent to a.__len__()
+"""
+
+print(f'{bool(Fraction(0,1))=}')
+print(f'{bool(Decimal("0.0"))=}')
+a = []
+b = ''
+c = ()
+
+print(f'{bool(a)=}')
+print(f'{bool(b)=}')
+print(f'{bool(c)=}')
+
+a = [1,2,3]
+b = 'abc'
+c = (1,2,3)
+
+print(f'{bool(a)=}')
+print(f'{bool(b)=}')
+print(f'{bool(c)=}')
+
+a = {}
+b = set()
+
+print(f'{bool(a)=}')
+print(f'{bool(b)=}')
+
+a = {'key': 'value'}
+b = {'non', 'empty', 'set'}
+
+print(f'{bool(a)=}')
+print(f'{bool(b)=}')
+
+print(f'{bool(None)=}')
