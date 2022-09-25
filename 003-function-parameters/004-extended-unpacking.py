@@ -112,3 +112,33 @@ print(f'{a=}, {b=}, {c=}, {d=}, {e=}')
 print('\nIt is okay to use multiple *s on the LHS if they are nested')
 a, *b, (c, *d) = [1,2,3, 'python']
 print(f'{a=}, {b=}, {c=}, {d=}')
+
+print('\nConcise set to list')
+s = {'d', 10, 3, -99}
+*c, = s
+print(f'{c=}')
+
+print('\nMerging sets')
+s_1 = {10, 3, -99}
+s_2 = {10, 20, 30}
+combined = {*s_1, *s_2}
+print(f'{combined=}')
+
+print('\nMerging 3+ sets')
+s_1 = {1, 2, 3}
+s_2 = {3, 4, 5}
+s_3 = {5, 6, 7}
+s_4 = {7, 8, 9}
+combined = {*s_1, *s_2, *s_3, *s_4}
+print(f'{combined=}')
+
+print('\nMerging dicts')
+d1 = {'key1': 1, 'key2': 2}
+d2 = {'key2': 3, 'key3': 4}
+combined = {*d1, *d2}
+print(f'{combined=}')
+
+combined = {**d1, **d2}
+print(f'{combined=}')
+combined = {**d2, **d1}
+print(f'{combined=}')
