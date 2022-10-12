@@ -154,24 +154,40 @@ def my_func(a: 'a string',
     #or other
     pass
 """
-print(f'{inspect.signature(my_func)=}\n')
-
-
 def my_func(a: 'a string',
             b: int = 1,
             *args: 'additional positional args',
             kw1: 'first keyword-only arg',
             kw2: 'second keyword-only arg',
             **kwargs: 'additional keyword-only args') -> str:
-    """does something
-       or other"""
+    #does something
+    #or other
     pass
+print('\nSignature Example:')
+print(f'{inspect.signature(my_func)=}')
+print(f'{inspect.signature(my_func).return_annotation=}\n')
+
+#print(f'{=}')
 
 for param in inspect.signature(my_func).parameters.values():
-    print(f'Name: {param.name}')
-    print(f'Default: {param.default}')
-    print(f'Annotation: {param.annotation}')
-    print(f'Kind: {param.kind}\n')
+    print(f'Name: {param.name=}')
+    print(f'Default: {param.default=}')
+    print(f'Annotation: {param.annotation=}')
+    print(f'Kind: {param.kind=}\n')
+
+sig = inspect.signature(my_func)
+print(f'{sig.parameters=}')
+print('iterating signature.parameters:')
+print('-'*30)
+for k,param in sig.parameters.items():
+    print(f'Key: {k}')
+    print(f'Name: {param.name=}')
+    print(f'Default: {param.default=}')
+    print(f'Annotation: {param.annotation=}')
+    print(f'Kind: {param.kind=}')
+    print('-'*30)
+
+print()
 
 def my_func(a: 'mandatory positional', 
             b: 'optional positional'=1, 
@@ -245,19 +261,16 @@ def my_func(a: 'mandatory positional',
     return a
 
 print(f'{inspect.getsource(my_func)=}')
-#print(f'{=}')
-#print(f'{=}')
-#print(f'{=}')
-#print(f'{=}')
-#print(f'{=}')
-#print(f'{=}')
-#print(f'{=}')
-#print(f'{=}')
-#print(f'{=}')
-#print(f'{=}')
-#print(f'{=}')
-#print(f'{=}')
-#print(f'{=}')
-#print(f'{=}')
-#print(f'{=}')
-#print(f'{=}')
+
+# this works
+divmod(4,3)
+
+# this fails, because these are positional args only
+try:
+    divmod(x=4,y=3)
+except TypeError as e:
+    print(e)
+
+print(f'{inspect.signature(divmod)=}')
+for param in inspect.signature(divmod).parameters.values():
+    print(f'{param.kind=}')
