@@ -326,12 +326,3 @@ def outer_func():
 
 outer_func()
 print(f'... after outer       -- {x=}')
-
-
-
-#print(f'{=}')
-#print(f'{=}')
-#print(f'{=}')
-#print(f'{=}')
-#print(f'{=}')
-#print(f'{=}')
