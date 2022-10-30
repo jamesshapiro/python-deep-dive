@@ -80,17 +80,85 @@ print(f'{fact(3)=}')
 print(f'{fact(5)=}')
 print()
 
+"""
+Multiple decorators simple example
+"""
 
 def dec_1(fn):
     def inner(*args, **kwargs):
         print('Running dec_1')
         return fn(*args,**kwargs)
+    return inner
 
-#print(f'{=}')
-#print(f'{=}')
-#print(f'{=}')
-#print(f'{=}')
-#print(f'{=}')
-#print(f'{=}')
-#print(f'{=}')
-#print(f'{=}')
+def dec_2(fn):
+    def inner(*args, **kwargs):
+        print('Running dec_2')
+        return fn(*args,**kwargs)
+    return inner
+
+@dec_1
+@dec_2
+def my_func():
+    print('Running my_func')
+
+my_func()
+
+print()
+
+def dec_1(fn):
+    def inner(*args, **kwargs):
+        result = fn(*args,**kwargs)
+        print('Running dec_1')
+        return result
+    return inner
+
+def dec_2(fn):
+    def inner(*args, **kwargs):
+        result = fn(*args,**kwargs)
+        print('Running dec_2')
+        return result
+    return inner
+
+@dec_1
+@dec_2
+def my_func():
+    print('Running my_func')
+
+my_func()
+
+print()
+
+@dec_1
+@dec_2
+@logged
+@timed
+def my_func():
+    print('Running my_func')
+
+my_func()
+
+"""
+The order of decorators can be significant
+
+For example, suppose you are logging calls to an API that
+uses authorization:
+
+@auth
+@logged
+def save_resource():
+    ...
+
+This might only log if authorization succeeds and not otherwise.
+
+If you want to log in every case (successful auth or not), then you
+might need to have it be:
+
+@logged
+@auth
+def save_resource():
+    ...
+
+... instead. e.g.
+
+save_resource = logged(auth(save_resourece))
+"""
