@@ -172,17 +172,57 @@ Globally storing the invocation count
 with a potentially non-global object
 """
 
-#print(f'{=}')
-#print(f'{=}')
-#print(f'{=}')
-#print(f'{=}')
-#print(f'{=}')
-#print(f'{=}')
-#print(f'{=}')
-#print(f'{=}')
-#print(f'{=}')
-#print(f'{=}')
-#print(f'{=}')
-#print(f'{=}')
-#print(f'{=}')
-#print(f'{=}')
+def counter(fn, counters):
+    cnt = 0
+    def inner(*args, **kwargs):
+        nonlocal cnt
+        cnt += 1
+        counters[fn.__name__] = cnt
+        return fn(*args, **kwargs)
+    return inner
+
+c = {}
+counted_add = counter(add,c)
+counted_mult = counter(mult,c)
+
+print()
+print(f'{counted_add(1,2)=}')
+
+print()
+print(f'{counted_mult(1,2)=}')
+print(f'{counted_mult(10,20)=}')
+print(f'{counted_mult(100,200)=}')
+
+print(f'{c=}')
+
+"""
+Final closures example
+"""
+
+def fact(n):
+    product = 1
+    for i in range(2,n+1):
+        product *= i
+    return product
+
+print(f'{fact(3)=}')
+print(f'{fact(5)=}')
+
+counted_fact = counter(fact, c)
+print(f'{counted_fact(5)=}')
+print(f'{c=}')
+fact = counter(fact, c)
+print(f'{fact.__closure__=}')
+print(f'{fact(3)=}')
+print(f'{fact(5)=}')
+add = counter(add, c)
+mult = counter(mult, c)
+print()
+print(f'{add(1,2)=}')
+
+print()
+print(f'{mult(1,2)=}')
+print(f'{mult(10,20)=}')
+print(f'{mult(100,200)=}')
+print(f'{c=}')
+
