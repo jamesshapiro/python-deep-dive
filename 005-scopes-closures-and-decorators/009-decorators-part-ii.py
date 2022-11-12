@@ -77,6 +77,7 @@ def timed(fn, reps):
         avg_elapsed = total_elapsed / reps
         print(avg_elapsed)
         return result
+    return inner
 
 """
 Can decorate with ONLY
@@ -264,3 +265,338 @@ def fib(n):
 print(f'{fib(26)=}')
 #print(f'{=}')
 #print(f'{=}')
+
+# ============================================ #
+
+def timed(fn, reps):
+    from time import perf_counter
+
+    def inner(*args, **kwargs):
+        total_elapsed = 0
+        for _ in range(reps):
+            start = perf_counter()
+            result = fn(*args, **kwargs)
+            end = perf_counter()
+            total_elapsed += end - start
+        avg_run_time = total_elapsed / reps
+        print(f'Avg run time: {avg_run_time:.6f}s ({reps} reps)')
+        return result
+    return inner
+
+def fib(n):
+    return calc_fib_recurse(n)
+
+fib = timed(fib, 5)
+
+print()
+print(f'{fib(28)=}')
+
+""" this works but the following does not:
+
+@timed(5)
+def fib(n):
+    return calc_fib_recurse(n)
+
+So by doing it this way, we have lost the ability
+to use the @ syntax to decorate our function
+"""
+
+def dec(fn):
+    print("running dec")
+
+    def inner(*args, **kwargs):
+        print("running inner")
+        return fn(*args, **kwargs)
+    
+    return inner
+
+def my_func():
+    print("running my_func")
+
+print()
+my_func()
+print()
+my_func = dec(my_func)
+print()
+my_func()
+
+def dec_factory():
+    print("running dec_factory")
+
+    def dec(fn):
+        print("running dec")
+
+        def inner(*args, **kwargs):
+            print("running inner")
+            return fn(*args, **kwargs)
+        
+        return inner
+    return dec
+
+dec = dec_factory()
+
+print('\n======= dec factory =======\n')
+def my_func():
+    print("running my_func")
+print('> my_func = dec(my_func)')
+my_func = dec(my_func)
+
+print('\n> my_func()')
+my_func()
+
+print('These three are equivalent:')
+
+
+method_1 = """
+@dec
+def my_func():
+    print("running my_func")
+"""
+print(f'\nmethod 1: {method_1}')
+
+method_2 = """
+@dec_factory()
+def my_func():
+    print("running my_func")
+"""
+print(f'method 2: {method_2}')
+
+method_3 = """
+my_func = dec_factory()(my_func)
+"""
+print(f'method 3: {method_3}')
+
+@dec
+def my_func():
+    print("running my_func")
+print('method 1:')
+my_func()
+
+print('\nmethod 2:')
+@dec_factory()
+def my_func():
+    print("running my_func")
+my_func()
+
+print('\nmethod 3:')
+def my_func():
+    print("running my_func")
+my_func = dec_factory()(my_func)
+my_func()
+
+print('\n=== Decorator factory with arguments ===')
+
+dec_factory_with_args = """
+def dec_factory(a, b):
+    print("running dec_factory")
+
+    def dec(fn):
+        print("running dec")
+
+        def inner(*args, **kwargs):
+            print("running inner")
+            print(f"{a=}, {b=}")
+            return fn(*args, **kwargs)
+
+        return inner
+    return dec
+"""
+def dec_factory(a, b):
+    print("running dec_factory")
+
+    def dec(fn):
+        print("running dec")
+
+        def inner(*args, **kwargs):
+            print("running inner")
+            print(f"{a=}, {b=}")
+            return fn(*args, **kwargs)
+
+        return inner
+    return dec
+
+print(dec_factory_with_args)
+
+print('=== These three methods are equivalent... ===\n')
+
+method_1 = """
+dec = dec_factory(10, 20)
+
+print()
+# runs dec here
+@dec
+def my_func():
+    print("running my_func")
+
+print()
+my_func()
+"""
+print(f'method 1: {method_1}')
+
+method_2 = """
+@dec_factory(100, 200)
+def my_func():
+    print("running my_func")
+"""
+print(f'method 2: {method_1}')
+
+method_3 = """
+def my_func():
+    print("running my_func")
+my_func = dec_factory(150, 250)(my_func)
+"""
+
+print(f'method 3: {method_3}')
+
+print('\nmethod 1:')
+dec = dec_factory(10, 20)
+# runs dec here
+@dec
+def my_func():
+    print("running my_func")
+
+print()
+my_func()
+
+print('\nmethod 2:')
+@dec_factory(100, 200)
+def my_func():
+    print("running my_func")
+my_func()
+
+print('\nmethod 3:')
+def my_func():
+    print("running my_func")
+my_func = dec_factory(150, 250)(my_func)
+my_func()
+
+print(f'\n{"="*20}')
+conclusion = """
+Bottom line: we can use decorator factories to create parameterized decorators
+
+e.g.:
+
+@dec_factory(param_1, param_2):
+def my_func():
+    pass
+"""
+print(conclusion)
+
+print(f'{"="*20}\n')
+
+
+
+dec_factory_defn = """
+def dec_factory(reps):
+    def timed(fn):
+        from time import perf_counter
+
+        def inner(*args, **kwargs):
+            total_elapsed = 0
+            for _ in range(reps):
+                start = perf_counter()
+                result = fn(*args, **kwargs)
+                end = perf_counter()
+                total_elapsed += end - start
+            avg_run_time = total_elapsed / reps
+            print(f'Avg run time: {avg_run_time:.6f}s ({reps} reps)')
+            return result
+        return inner
+    return timed
+
+@dec_factory(5)
+def fib(n):
+    return calc_fib_recurse(n)
+fib(28)
+"""
+
+print(dec_factory_defn)
+
+def dec_factory(reps):
+    def timed(fn):
+        from time import perf_counter
+
+        def inner(*args, **kwargs):
+            total_elapsed = 0
+            for _ in range(reps):
+                start = perf_counter()
+                result = fn(*args, **kwargs)
+                end = perf_counter()
+                total_elapsed += end - start
+            avg_run_time = total_elapsed / reps
+            print(f'Avg run time: {avg_run_time:.6f}s ({reps} reps)')
+            return result
+        return inner
+    return timed
+
+@dec_factory(5)
+def fib(n):
+    return calc_fib_recurse(n)
+print(f'{fib(28)=}')
+@dec_factory(15)
+def fib(n):
+    return calc_fib_recurse(n)
+print(f'{fib(28)=}')
+
+
+
+
+
+
+
+print(f'\n{"="*20}\n')
+print('final piece, rename dec_factory to timed\n')
+print(f'{"="*20}\n')
+
+timed_defn = """
+def timed(reps):
+    def dec(fn):
+        from time import perf_counter
+
+        def inner(*args, **kwargs):
+            total_elapsed = 0
+            for _ in range(reps):
+                start = perf_counter()
+                result = fn(*args, **kwargs)
+                end = perf_counter()
+                total_elapsed += end - start
+            avg_run_time = total_elapsed / reps
+            print(f'Avg run time: {avg_run_time:.6f}s ({reps} reps)')
+            return result
+        return inner
+    return dec
+
+@timed(5)
+def fib(n):
+    return calc_fib_recurse(n)
+fib(28)
+"""
+
+print(timed_defn)
+
+def timed(reps):
+    def dec(fn):
+        from time import perf_counter
+
+        def inner(*args, **kwargs):
+            total_elapsed = 0
+            for _ in range(reps):
+                start = perf_counter()
+                result = fn(*args, **kwargs)
+                end = perf_counter()
+                total_elapsed += end - start
+            avg_run_time = total_elapsed / reps
+            print(f'Avg run time: {avg_run_time:.6f}s ({reps} reps)')
+            return result
+        return inner
+    return dec
+
+@timed(5)
+def fib(n):
+    return calc_fib_recurse(n)
+print(f'{fib(28)=}')
+
+@timed(15)
+def fib(n):
+    return calc_fib_recurse(n)
+print(f'{fib(28)=}')
