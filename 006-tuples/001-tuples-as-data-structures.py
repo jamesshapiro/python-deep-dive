@@ -197,3 +197,97 @@ try:
 except TypeError as e:
     print(e)
 
+class Point2D:
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+
+    def __repr__(self):
+        return f'{self.__class__.__name__}({self.x}, {self.y})'
+
+pt = Point2D(10, 20)
+print(f'{pt=}')
+print(f'{hex(id(pt))=}')
+
+a = Point2D(x=0,y=0), Point2D(x=10,y=20)
+
+print()
+print(f'{hex(id(a[0]))=}')
+print(f'{a=}')
+a[0].x = 100
+print(f'{hex(id(a[0]))=}')
+print(f'{a=}')
+print()
+
+s = 'python'
+print(f'{hex(id(s))=}')
+print(f'{s=}')
+s = 'python' + 'rocks!'
+print(f'{hex(id(s))=}')
+print(f'{s=}')
+
+print()
+a = 1, 2, 3
+print(f'{hex(id(a))=}')
+print(f'{a=}')
+
+a += (4, 5)
+print(f'{hex(id(a))=}')
+print(f'{a=}')
+
+pt1 = (0, 0)
+pt2 = (10, 20)
+
+london = ("London", "UK", 8_780_000)
+new_york = ("New York", "USA", 8_500_000)
+beijing = ("Beijing", "China", 21_000_000)
+
+cities = [london, new_york, beijing]
+
+total = 0
+for city in cities:
+    total += city[2]
+print(f'{total=}')
+
+""" more pythonic """
+total = sum(city[2] for city in cities)
+print(f'{total=}')
+
+record = ('DJIA', 2018, 1, 19, 25_987, 26_072, 25_943, 26_072)
+symbol, year, month, day, open_, high, low, close = record
+symbol, *_, close = record
+
+print(f'{symbol=}')
+print(f'{close=}')
+
+for city in cities:
+    print(f'{city=}')
+
+for city, country, population in cities:
+    print(f'{city=}, {country=}, {population=}')
+
+print()
+for index, city in enumerate(cities):
+    print(f'{index=}, {city=}')
+
+from random import uniform
+from math import sqrt
+
+def random_shot(radius):
+    random_x = uniform(-radius, radius)
+    random_y = uniform(-radius, radius)
+    if sqrt(random_x**2 + random_y**2) <= radius:
+        is_in_circle = True
+    else:
+        is_in_circle = False
+    
+    return random_x, random_y, is_in_circle
+
+num_attempts = 100_000
+count_inside = 0
+for i in range(num_attempts):
+    *_, is_in_circle = random_shot(1)
+    if is_in_circle:
+        count_inside += 1
+
+print(f'Pi is approximately {4*count_inside/num_attempts}')
