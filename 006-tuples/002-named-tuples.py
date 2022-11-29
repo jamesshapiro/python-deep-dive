@@ -325,8 +325,114 @@ pt1 = Point2D(10, 20)
 
 pt1._asdict() # -> {'x': 10, 'y': 20}
 
+"""
+CODING SECTION
+"""
 
+class Point3D:
+    def __init__(self, x, y, z):
+        self.x = x
+        self.y = y
+        self.z = z
 
+Point2D = namedtuple('Point2D', ['x', 'y'])
+pt1 = Point2D(10, 20)
+print(f'{pt1=}')
 
+pt3d_1 = Point3D(10, 20, 30)
+print(f'{pt3d_1=}')
 
+# with namedtuple you get the repr functionality for free
 
+Pt2D = namedtuple('Point2D', ('x', 'y'))
+pt2 = Pt2D(10, 20)
+print(f'{pt2=}')
+
+# Note: this is why we name the namedtuple class the same as the variable name
+# Otherwise it would be confusing.
+
+p = Point3D(x=10, y=20, z=30)
+print(f'{p.x=}')
+print(f'{p.y=}')
+print(f'{p.z=}')
+print(f'{isinstance(p, tuple)=}')
+
+p = Point2D(x=10, y=20)
+print(f'{p.x=}')
+print(f'{p.y=}')
+
+print(f'{isinstance(p, tuple)=}')
+
+a = (10, 20)
+b = (10, 20)
+print(f'{a is b=}')
+print(f'{a == b=}')
+
+pt1 = Point2D(10, 20)
+pt2 = Point2D(10, 20)
+print(f'{pt1 is pt2=}')
+print(f'{pt1 == pt2=}')
+
+pt1 = Point3D(10, 20, 30)
+pt2 = Point3D(10, 20, 30)
+print(f'{pt1 is pt2=}')
+print(f'{pt1 == pt2=}')
+
+# To get Point3D to work with ==, we need to implement __eq__ method
+
+class Point3D:
+    def __init__(self, x, y, z):
+        self.x = x
+        self.y = y
+        self.z = z
+
+    def __repr__(self):
+        return f'{self.__class__.__name__}(x={self.x}, y={self.y}, z={self.z})'
+
+    def __eq__(self, other):
+        if isinstance(other, self.__class__):
+            return self.x == other.x and self.y == other.y and self.z == other.z
+        else:
+            return False
+
+pt1 = Point3D(10, 20, 30)
+pt2 = Point3D(10, 20, 30)
+print(f'{pt1 is pt2=}')
+print(f'{pt1 == pt2=}')
+
+# Still hard to do things like finding the max coordinate with class vs namedtuple
+
+pt1 = Point2D(10, 20)
+pt2 = Point3D(10, 20, 30)
+
+print(f'{max(pt1)=}')
+try:
+    print(f'{max(pt2)=}')
+except TypeError as e:
+    print(e)
+
+# What about dot products?
+
+def dot_product_3d(a,b):
+    return a.x*b.x + a.y*b.y + a.z*b.z
+
+def dot_product(a,b):
+    return sum([x*y for x,y in zip(a,b)])
+
+pt1 = Point3D(1, 2, 3)
+pt2 = Point3D(1, 1, 1)
+print(f'{dot_product_3d(pt1, pt2)=}')
+
+a = (1,2)
+b = (1,1)
+print(f'{list(zip(a,b))=}')
+print(f'{dot_product(a,b)=}')
+
+pt1Point2D = Point2D(1, 2)
+pt2Point2D = Point2D(1, 1)
+print(f'{dot_product(pt1Point2D, pt2Point2D)=}')
+
+Vector3D = namedtuple('Vector3D', 'x y z')
+v1 = Vector3D(1, 2, 3)
+v2 = Vector3D(1, 1, 1)
+print(f'{dot_product_3d(v1, v2)=}')
