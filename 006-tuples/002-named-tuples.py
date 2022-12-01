@@ -436,3 +436,53 @@ Vector3D = namedtuple('Vector3D', 'x y z')
 v1 = Vector3D(1, 2, 3)
 v2 = Vector3D(1, 1, 1)
 print(f'{dot_product_3d(v1, v2)=}')
+print(f'{tuple(v1)=}')
+print(f'{v1[0]=}')
+print(f'{v1[0:2]=}')
+print(f'{v1.x=}')
+print(f'{v1.y=}')
+
+Circle = namedtuple('Circle', 'center_x center_y radius')
+c = Circle(0, 0, 10)
+
+print(f'{c=}')
+
+Stock = namedtuple('Stock', '''symbol 
+                                   year 
+                                   month 
+                                   day 
+                                   open 
+                                   high 
+                                   low 
+                                   close''')
+
+djia = Stock('DJIA', 2018, 1, 25, 26_313, 26_458, 26_260, 26_393)
+print(f'{djia=}')
+print(f'{djia.close=}')
+
+for item in djia:
+    print(f'{item=}')
+
+p = Point2D(10, 20)
+x, y = p
+print(f'{x=}')
+print(f'{y=}')
+
+symbol, year, month, day, *_, close = djia
+print(f'{symbol=} {year=} {month=} {day=} {close=}')
+
+print(f'{_=}')
+
+# reminder, this happens because of the rename option which renames the field by reserving the underscore
+try:
+    Person = namedtuple('Person', 'name age _ssn')
+except ValueError as e:
+    print(e)
+
+print(f'{Person._fields=}')
+print(f'{Stock._fields=}')
+
+print(f'{djia._asdict()=}')
+d = djia._asdict()
+print(f'{d["symbol"]=}')
+print(f'{d["close"]=}')
