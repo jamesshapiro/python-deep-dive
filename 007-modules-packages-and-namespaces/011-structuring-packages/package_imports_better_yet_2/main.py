@@ -1,6 +1,8 @@
 import shared.validators as validators
 import shared
 
+
+
 #common.validators.boolean.is_boolean('True')
 
 """
@@ -76,4 +78,37 @@ Third, as an alternative in the numeric module, we used:
 __all__ = ['is_integer', 'is_numeric']
 
 To exclude the helper functions from the validators namespace.
+"""
+
+"""
+Can make it even nicer for the user and allow them to run the non-recommended:
+
+from shared.validators import *
+
+By adding the following to validators/__init__.py:
+
+__all__ = ['is_boolean', 'is_json']
+
+Then:
+
+print('\n\n***** self *****')
+for k in dict(globals()).keys():
+    print(k)
+
+Yields:
+
+***** self *****
+__name__
+__doc__
+__package__
+__loader__
+__spec__
+__annotations__
+__builtins__
+__file__
+__cached__
+validators
+shared
+is_boolean
+is_json
 """
