@@ -34,6 +34,7 @@ print(f'{respond("Java")=}')
 print(f'{respond("Javascript")=}')
 print(f'{respond("Fortran")=}')
 
+#######################
 symbols = {
     'F': '\u2192',
     'B': '\u2190',
@@ -42,6 +43,7 @@ symbols = {
     'pick': '\u2923',
     'drop': '\u2925'
 }
+#######################
 
 def op(command):
     match command:
@@ -111,3 +113,37 @@ print([
     op(["move", "R", "L", "F"]),
     op("drop"),
 ])
+
+
+def op(command):
+    match command:
+        case ["move", *directions] if set(directions) <= symbols.keys():
+            return tuple(symbols[direction] for direction in directions)
+        case "pick":
+            return symbols['pick']
+        case "drop":
+            return symbols['drop']
+        case _:
+            raise ValueError(f"{command} does not compute!")
+
+try:
+    print(op(["move", "UP"]))
+except ValueError as e:
+    print(e)
+
+# Additional reading PEP 636: https://peps.python.org/pep-0636/
+
+#============ Zip Options ============
+
+l1 = ['a', 'b', 'c']
+l2 = [1, 2, 3, 4]
+
+print(list(zip(l1, l2)))
+from itertools import zip_longest
+
+print(list(zip_longest(l1, l2, fillvalue='???')))
+
+try:
+    print(list(zip(l1, l2, strict=True)))
+except ValueError as e:
+    print(e)
